@@ -13,7 +13,7 @@ const PartnersScreen = ({ navigation }) => {
         <View style={styles.containerBrands}>
           <View style={styles.containerImg}>
             <Image
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
               style={styles.logoLoginScreen}
             />
           </View>
@@ -102,16 +102,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logoLoginScreen: {
+    marginTop: "5%",
     width: 220,
-    top: 26,
-    height: 29,
+    height: 59,
+    resizeMode: "contain",
   },
   partnerText: {
     color: "black",
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 20,
-    top: 10,
+    marginTop: "10%",
   },
   circle: {
     width: "27%",

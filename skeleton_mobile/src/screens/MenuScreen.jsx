@@ -34,14 +34,8 @@ const MenuScreen = ({ navigation }) => {
     navigation.navigate("Exit");
   };
   const openLegalEntity = async () => {
-    await AsyncStorage.getItem("cardInfo").then((cardInfo) => {
-      if (cardInfo) {
-        return navigation.navigate("LegalEntity");
-      } else {
-        return navigation.navigate("SwitchAccount");
-      }
-    });
-  };
+      navigation.navigate("LegalEntity");
+    };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -49,7 +43,7 @@ const MenuScreen = ({ navigation }) => {
         <View style={styles.containerBrands}>
           <View style={styles.containerImg}>
             <Image
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
               style={styles.logoLoginScreen}
             />
           </View>
@@ -58,7 +52,7 @@ const MenuScreen = ({ navigation }) => {
               <Icon
                 name="house-user"
                 size={28}
-                color="#18aa5e"
+                color="#3bb452"
                 marginLeft="4%"
                 justifyContent="space-between"
               />
@@ -68,7 +62,7 @@ const MenuScreen = ({ navigation }) => {
               <Icon
                 name="exchange-alt"
                 size={28}
-                color="#18aa5e"
+                color="#3bb452"
                 marginLeft="4%"
                 justifyContent="space-between"
               />
@@ -78,13 +72,13 @@ const MenuScreen = ({ navigation }) => {
             <TouchableOpacity
               style={styles.list}
               onPress={() => {
-                Linking.openURL("https://mango-oil.com.ua");
+                Linking.openURL("https://vostokgaz.net/");
               }}
             >
               <Icon
                 name="th-list"
                 size={28}
-                color="#18aa5e"
+                color="#3bb452"
                 marginLeft="4%"
                 justifyContent="space-between"
               />
@@ -94,14 +88,14 @@ const MenuScreen = ({ navigation }) => {
               style={styles.list}
               onPress={() => {
                 Linking.openURL(
-                  "https://www.mango-oil.com.ua/templates/contract.pdf"
+                  "https://www.google.com"
                 );
               }}
             >
               <Icon
                 name="newspaper"
                 size={28}
-                color="#18aa5e"
+                color="#3bb452"
                 marginLeft="4%"
                 justifyContent="space-between"
               />
@@ -111,7 +105,7 @@ const MenuScreen = ({ navigation }) => {
               <Icon
                 name="user"
                 size={28}
-                color="#18aa5e"
+                color="#3bb452"
                 marginLeft="5%"
                 justifyContent="space-between"
               />
@@ -121,7 +115,7 @@ const MenuScreen = ({ navigation }) => {
               <Icon
                 name="sliders-h"
                 size={25}
-                color="#18aa5e"
+                color="#3bb452"
                 marginLeft="5%"
                 justifyContent="space-between"
               />
@@ -131,7 +125,7 @@ const MenuScreen = ({ navigation }) => {
               <Icon
                 name="headset"
                 size={28}
-                color="#18aa5e"
+                color="#3bb452"
                 marginLeft="5%"
                 justifyContent="space-between"
               />
@@ -190,7 +184,8 @@ const styles = StyleSheet.create({
   },
   logoLoginScreen: {
     width: 220,
-    height: 29,
+    height: 59,
+    resizeMode: "contain",
   },
   containerImg: {
     resizeMode: "contain",

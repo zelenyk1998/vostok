@@ -23,13 +23,13 @@ const ConfirmResetOtpScreen = ({ navigation, route }) => {
   const [enableResend, setEnableResend] = useState(false);
   const [countdown, setCountdown] = useState(120);
 
-  const { secret, phone } = route.params;
+  // const { secret, phone } = route.params;
 
-  useEffect(() => {
-    if (secret) {
-      setSecondSecret(secret);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (secret) {
+  //     setSecondSecret(secret);
+  //   }
+  // }, []);
 
   let clockCall = null;
 
@@ -156,7 +156,7 @@ const ConfirmResetOtpScreen = ({ navigation, route }) => {
       <View style={styles.container}>
         <View style={styles.containerImg}>
           <Image
-            source={require("../assets/images/horizontal_transp.png")}
+            source={require("../assets/images/VostokGaz.png")}
             style={styles.logoLoginScreen}
           />
         </View>
@@ -185,7 +185,7 @@ const ConfirmResetOtpScreen = ({ navigation, route }) => {
               style={[
                 styles.loginText,
                 {
-                  color: enableResend ? "#18AA5E" : "#008080",
+                  color: enableResend ? "#3bb452" : "#008080",
                   fontFamily: "Raleway",
                 },
               ]}
@@ -219,8 +219,9 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   logoLoginScreen: {
-    width: 300,
-    height: 40,
+    width: 220,
+    height: 59,
+    resizeMode: "contain",
   },
   textRegistration: {
     fontWeight: "700",
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
   inputView: {
     color: "black",
     width: "100%",
-    borderColor: "rgba(226, 226, 226, 1)",
+    borderColor: "grey",
     borderWidth: 1,
     borderRadius: 6,
     height: "23%",
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     width: 263,
-    backgroundColor: "rgba(24, 170, 94, 1)",
+    backgroundColor: "#3bb452",
     borderRadius: 6,
     height: 41,
     alignItems: "center",
@@ -285,7 +286,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 3,
-    borderColor: "#00FF7F",
+    borderColor: "#3bb452",
     borderWidth: 0.75,
     top: "22%",
   },
@@ -301,7 +302,7 @@ const styles = StyleSheet.create({
   },
   lineStyle: {
     borderWidth: 0.7,
-    borderColor: "rgba(226, 226, 226, 1)",
+    borderColor: "grey",
     width: "80%",
     margin: 10,
     top: "16%",

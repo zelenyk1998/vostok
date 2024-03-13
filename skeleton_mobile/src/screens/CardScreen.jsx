@@ -22,6 +22,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Item = ({ stella }) => {
+  
   const { t } = useTranslation();
 
   return (
@@ -94,127 +95,11 @@ const CardScreen = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const { t } = useTranslation();
   const [showQRCode, setShowQRCode] = useState(false);
-  const [balance, setBalance] = useState("");
+  const [balance, setBalance] = useState("1234");
   const [stellaPrice, setStellaPrice] = useState([]);
-  const [card, setCard] = useState([]);
+  const [card, setCard] = useState("5423434");
 
-  const getClientData = () =>
-    AsyncStorage.getItem("token")
-      .then((token) => {
-        if (!token) {
-          Alert.alert(t("Session.session"), t("Session.finished"));
-          return navigation.navigate("Login");
-        }
-        if (token) {
-          return axios
-            .post(
-              `${Config.baseUrl}/client/graphql`,
-              {
-                query: "{qrCard {id, card_name, serial_external, pin1}}",
-                variables: {},
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            )
-            .then((res) => {
-              const {
-                data: {
-                  data: { qrCard },
-                },
-              } = res;
-
-              setCard(qrCard);
-
-              return axios
-                .post(
-                  `${Config.baseUrl}/client/graphql`,
-                  {
-                    query: "{getBalance {balance}}",
-                    variables: {},
-                  },
-                  {
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  const {
-                    data: {
-                      data: { getBalance },
-                    },
-                  } = res;
-
-                  setBalance(getBalance?.balance);
-
-                  return axios
-                    .post(
-                      `${Config.baseUrl}/client/graphql`,
-                      {
-                        query: "{stella {id, name, fuels}}",
-                        variables: {},
-                      },
-                      {
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${token}`,
-                        },
-                      }
-                    )
-                    .then((res) => {
-                      const {
-                        data: {
-                          data: { stella },
-                        },
-                      } = res;
-
-                      return setStellaPrice(stella[0]?.fuels);
-                    })
-                    .catch(() => {
-                      Alert.alert(t("Session.session"), t("Session.finished"));
-
-                      return navigation.navigate("Login");
-                    });
-                })
-                .catch(() => {
-                  Alert.alert(t("Session.session"), t("Session.finished"));
-                  return navigation.navigate("Login");
-                });
-            })
-            .catch(() => {
-              Alert.alert(t("Session.session"), t("Session.finished"));
-              return navigation.navigate("Login");
-            });
-        }
-      })
-      .catch(() => {
-        Alert.alert(t("Session.session"), t("Session.finished"));
-        return navigation.navigate("Login");
-      });
-
-  useEffect(() => {
-    const delay = 300;
-
-    const loadDataWithDelay = async () => {
-      await new Promise((resolve) => setTimeout(resolve, delay));
-      getClientData();
-    };
-
-    loadDataWithDelay();
-  }, []);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getClientData();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+  
 
   const toggleQRCode = () => {
     setShowQRCode(!showQRCode);
@@ -238,17 +123,10 @@ const CardScreen = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
       >
         <View style={styles.container}>
           <View style={styles.topContainer}>
             <View style={styles.containerImg}>
-              <Image
-                source={require("../assets/images/horizontal_transp.png")}
-                style={styles.logoLoginScreen}
-              />
             </View>
             {showQRCode ? (
               <TouchableOpacity style={styles.qrCode} onPress={toggleQRCode}>
@@ -257,26 +135,23 @@ const CardScreen = () => {
                   size={193}
                   backgroundColor="white"
                 />
-                <Text style={styles.qrText}>pin-code: {card?.pin1}</Text>
+                <Text style={styles.qrText}>pin-code: 12314</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity onPress={openFuel}>
                 <View style={styles.card}>
+                <LinearGradient
+                      locations={[0,0.6,0.5]}
+                      colors={["white", "#3bb452"]}
+                      style={styles.linearGradient}
+                    >
                   <View style={styles.cardTop}>
                     <Image
-                      source={require("../assets/images/circle.png")}
+                      source={require("../assets/images/VostokGaz.png")}
                       style={styles.imageCard}
                     />
                   </View>
                   <View style={styles.cardButtom}>
-                    <LinearGradient
-                      colors={["#adf3f1", "#3bc0ff"]}
-                      style={styles.linearGradient}
-                    >
-                      <Image
-                        source={require("../assets/images/text_card.png")}
-                        style={styles.textCard}
-                      />
                       <View
                         style={{
                           alignItems: "center",
@@ -286,7 +161,7 @@ const CardScreen = () => {
                         <Text style={styles.cardText}>
                           {t("CardScreen.fuelCard")}
                         </Text>
-                        <Text style={styles.cardNumber}>{card?.card_name}</Text>
+                        <Text style={styles.cardNumber}>32525245</Text>
                       </View>
                       <View style={styles.balanceText}>
                         <Text
@@ -314,8 +189,9 @@ const CardScreen = () => {
                           {balance} {t("CardScreen.currencyBalance")}
                         </Text>
                       </View>
-                    </LinearGradient>
+                    
                   </View>
+                  </LinearGradient>
                 </View>
               </TouchableOpacity>
             )}
@@ -463,11 +339,13 @@ const styles = StyleSheet.create({
     left: "5.5%",
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "#3bb452",
+    alignItems: "center",
   },
   cardTop: {
     width: "100%",
     flex: 1,
+    alignItems: "center",
   },
   cardButtom: {
     width: "100%",
@@ -479,10 +357,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   imageCard: {
-    flex: 1,
-    width: 250,
-    height: 71.08,
-    left: "15%",
+    marginTop: "5%",
+    width: 200,
+    height: 51.08,
     resizeMode: "contain",
   },
   textCard: {
@@ -492,6 +369,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   cardText: {
+    marginTop: "2%",
     fontWeight: "500",
     fontSize: 16,
     color: "black",
@@ -502,7 +380,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   balanceText: {
-    marginTop: "3%",
+    marginTop: "7%",
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
@@ -516,10 +394,10 @@ const styles = StyleSheet.create({
     height: "100%",
     marginLeft: "5%",
     padding: "3%",
-    backgroundColor: "#18aa5e",
+    backgroundColor: "#3bb452",
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#18aa5e",
+    borderColor: "#3bb452",
   },
   topupText: {
     fontSize: 15,
@@ -533,7 +411,7 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     padding: "3%",
     backgroundColor: "white",
-    borderColor: "green",
+    borderColor: "#3bb452",
     borderWidth: 1,
     borderRadius: 6,
     shadowColor: "rgba(24, 170, 94, 0.2)",
@@ -545,7 +423,7 @@ const styles = StyleSheet.create({
   partnerText: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#18aa5e",
+    color: "#3bb452",
     textAlign: "center",
   },
   fuelPrices: {
@@ -605,7 +483,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "right",
     flex: 1,
-    color: "#18aa5e",
+    color: "#3bb452",
     marginRight: "45%",
     marginTop: "15%",
   },
@@ -618,7 +496,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "right",
     flex: 1,
-    color: "#18aa5e",
+    color: "#3bb452",
     marginRight: "30%",
     marginTop: "15%",
   },
@@ -641,7 +519,7 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway",
     fontSize: 10,
     fontWeight: "bold",
-    color: "#18aa5e",
+    color: "#3bb452",
     marginTop: "2%",
   },
 });

@@ -29,7 +29,7 @@ const MenuScreen = ({ navigation }) => {
         <View style={styles.containerBrands}>
           <View style={styles.containerImg}>
             <Image
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
               style={styles.logoLoginScreen}
             />
           </View>
@@ -39,7 +39,7 @@ const MenuScreen = ({ navigation }) => {
                 <Icon
                   name="exchange-alt"
                   size={28}
-                  color="#18aa5e"
+                  color="#3bb452"
                   marginLeft="4%"
                   justifyContent="space-between"
                 />
@@ -87,8 +87,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   logoLoginScreen: {
+    marginTop: "5%",
     width: 220,
-    height: 29,
+    height: 59,
+    resizeMode: "contain",
   },
   containerImg: {
     resizeMode: "contain",

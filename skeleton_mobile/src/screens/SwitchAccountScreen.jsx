@@ -95,7 +95,7 @@ const ChangeProfile = ({ navigation }) => {
           <View style={styles.topImage}>
             <Image
               style={styles.tinyLogo}
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
             />
           </View>
           <View style={styles.form}>
@@ -124,7 +124,7 @@ const ChangeProfile = ({ navigation }) => {
                 style={styles.icons}
                 name="edit"
                 size={20}
-                color="#18AA5E"
+                color="#3bb452"
               />
             </View>
             {codeEdroupError && (
@@ -163,7 +163,7 @@ const ChangeProfile = ({ navigation }) => {
                 style={styles.icons}
                 name="edit"
                 size={20}
-                color="#18AA5E"
+                color="#3bb452"
               />
             </View>
             {phoneNumberError && (
@@ -234,9 +234,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   tinyLogo: {
-    marginTop: "18%",
-    width: 270,
-    height: "80%",
+    marginTop: "15%",
+    width: 220,
+    height: 59,
     resizeMode: "contain",
   },
   form: {
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   button: {
     width: "70%",
     marginTop: 40,
-    backgroundColor: "#18AA5E",
+    backgroundColor: "#3bb452",
     borderRadius: 6,
     paddingVertical: 10,
     paddingHorizontal: 20,

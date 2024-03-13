@@ -35,102 +35,10 @@ const ProfileScreen = ({ navigation }) => {
   const [lastNameError, setLastNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
-  const getProfileInfo = () =>
-    AsyncStorage.getItem("token").then((token) => {
-      if (!token) {
-        Alert.alert(t("Session.session"), t("Session.finished"));
-        return navigation.navigate("Login");
-      }
-      return axios
-        .post(
-          `${Config.baseUrl}/client/graphql`,
-          {
-            query: "{self {first_name, last_name, email, unconfirmed_changes}}",
-            variables: {},
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((res) => {
-          const {
-            data: {
-              data: { self },
-            },
-          } = res;
-          setProfileInfo(self);
-        })
-        .catch((error) => {
-          // Alert.alert(t("ProfileScreen.Error"), t("ProfileScreen.ErrorTXT"));
-        });
-    });
-
-  useEffect(() => {
-    getProfileInfo();
-  }, []);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getProfileInfo();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-  const changeProfileInfo = () => {
-    setIsPressed(true);
+  const getProfileInfo = () =>{
+        return Alert.alert(("Помилка"), t("Немає даних"));
   };
 
-  const handleChange = (fieldName, value) => {
-    if (
-      emailError === false &&
-      firstNameError === false &&
-      lastNameError === false
-    ) {
-      return AsyncStorage.getItem("token")
-        .then((token) => {
-          return axios
-            .post(
-              `${Config.baseUrl}/client/graphql`,
-              {
-                query: `
-                mutation clientChanges($field_name: String!, $value: String!) {
-                  createClientChangeRequest(field_name: $field_name, value: $value) {
-                    client_id
-                  }
-                }
-              `,
-                variables: { field_name: fieldName, value: value },
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            )
-            .then((res) => {
-              const {
-                data: {
-                  data: { updateDatexClient },
-                },
-              } = res;
-
-              setChangeFirstName(profileInfo.first_name);
-              setChangeLastName(profileInfo.last_name);
-              setChangeEmail(profileInfo.email);
-              setIsPressed(false);
-
-              return updateDatexClient;
-            });
-        })
-        .catch(() => {
-          Alert.alert(t("Session.session"), t("Session.finished"));
-        });
-    }
-  };
   const UnconfirmedChanges = () => {
     if (profileInfo?.unconfirmed_changes?.length > 0) {
       return (
@@ -151,15 +59,12 @@ const ProfileScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
       >
         <View style={styles.container}>
           <View style={styles.topImage}>
             <Image
               style={styles.tinyLogo}
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
             />
           </View>
           <View style={styles.avatarContainer}>
@@ -322,15 +227,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   topImage: {
+    marginTop: "3%",
     height: "9%",
     alignItems: "center",
     justifyContent: "flex-start",
     backgroundColor: "white",
   },
   tinyLogo: {
-    marginTop: 20,
-    width: 230,
-    height: 27,
+    width: 220,
+    height: 59,
     resizeMode: "contain",
   },
 

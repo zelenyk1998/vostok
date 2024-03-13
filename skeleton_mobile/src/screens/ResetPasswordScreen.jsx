@@ -56,7 +56,7 @@ const ResetPasswordScreen = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.containerImg}>
           <Image
-            source={require("../assets/images/horizontal_transp.png")}
+            source={require("../assets/images/VostokGaz.png")}
             style={styles.logoLoginScreen}
           />
         </View>
@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
   },
   logoLoginScreen: {
     width: 220,
-    height: 29,
+    height: 59,
+    resizeMode: "contain",
   },
   logo: {
     fontWeight: "bold",

@@ -95,7 +95,7 @@ const ChangePinScreen = () => {
           <View style={styles.topImage}>
             <Image
               style={styles.tinyLogo}
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
             />
           </View>
           <View style={styles.pinContainer}>
@@ -251,9 +251,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   tinyLogo: {
-    marginTop: 20,
-    width: 230,
-    height: 29,
+    marginTop: "3%",
+    width: 220,
+    height: 59,
     resizeMode: "contain",
   },
   pinText: {
