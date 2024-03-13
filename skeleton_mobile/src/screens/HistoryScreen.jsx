@@ -32,101 +32,12 @@ const HistoryScreen = ({ navigation }) => {
   const [isTopupActive, setIsTopupActive] = useState(false);
   const [isChargedActive, setIsChargedActive] = useState(false);
 
-  const getTransactions = () =>
-    AsyncStorage.getItem("token")
-      .then(async (token) => {
-        const ft = await axios
-          .post(
-            `${Config.baseUrl}/client/graphql`,
-            {
-              query:
-                "{allTransactions {id, n_vid_trans, n_service_station, tr_fn_clients, ss_fn_clients, fn_card_owner, n_accounts_struc, price, amount, sum, session_time}}",
-              variables: {},
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((res) => {
-            const {
-              data: {
-                data: { allTransactions },
-              },
-            } = res;
+  const getTransactions = () => {
+        return Alert.alert(("Ошибочка"), ("Закинь гроші пес"));
+      };
 
-            setFuelTransactions(allTransactions);
-
-            return allTransactions;
-          })
-          .catch(() => {
-            Alert.alert(t("InputErrors.error"), t("ErrorTXTDef"));
-            return navigation.navigate("Login");
-          });
-
-        const pt = await axios
-          .post(
-            `${Config.baseUrl}/client/graphql`,
-            {
-              query:
-                "{allPaymentTransactions {id_docums, session_time, s_docums, payment_note, client_fn}}",
-              variables: {},
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((res) => {
-            const {
-              data: {
-                data: { allPaymentTransactions },
-              },
-            } = res;
-
-            setPaymentTransactions(allPaymentTransactions);
-
-            return allPaymentTransactions;
-          })
-          .catch(() => {
-            Alert.alert(t("InputErrors.error"), t("ErrorTXTDef"));
-            return navigation.navigate("Login");
-          });
-
-        return setTransactions([...pt, ...ft]);
-      })
-      .catch(() => {
-        Alert.alert(t("Session.session"), t("Session.finished"));
-        return navigation.navigate("Login");
-      });
-
-  useEffect(() => {
-    getTransactions();
-  }, []);
-
-  const showAllTransactions = () => {
-    setIsChargedActive(false);
-    setIsTopupActive(false);
-    setIsAllActive(true);
-
-    getTransactions();
-
-    return setTransactions([...paymentTransactions, ...fuelTransactions]);
-  };
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    showAllTransactions();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
-  const ItemTopup = ({ transactions }) => {
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+  function ItemTopup({ transactions }) {
     if (transactions?.id_docums) {
       const formattedDate = moment(transactions.session_time).format(
         "DD.MM.YYYY HH:mm"
@@ -183,23 +94,20 @@ const HistoryScreen = ({ navigation }) => {
         </View>
       );
     }
-  };
+  }
   const renderItem = ({ item }) => <ItemTopup transactions={item} />;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
       >
         <View style={styles.container}>
           <View style={styles.containerBrands}>
             <View style={styles.topImage}>
               <Image
                 style={styles.tinyLogo}
-                source={require("../assets/images/horizontal_transp.png")}
+                source={require("../assets/images/VostokGaz.png")}
               />
             </View>
             <View style={styles.topContainer}>
@@ -207,11 +115,10 @@ const HistoryScreen = ({ navigation }) => {
                 <TouchableOpacity
                   style={[
                     styles.allTrns,
-                    { backgroundColor: isAllActive ? "#18AA5E" : "white" },
+                    { backgroundColor: isAllActive ? "#3bb452" : "white" },
                   ]}
-                  onPress={showAllTransactions}
                 >
-                  <Text style={{ color: isAllActive ? "#FFFFFF" : "#18AA5E" }}>
+                  <Text style={{ color: isAllActive ? "#FFFFFF" : "#3bb452" }}>
                     {t("HisrotyScreen.allTransactions")}
                   </Text>
                 </TouchableOpacity>
@@ -219,7 +126,7 @@ const HistoryScreen = ({ navigation }) => {
                   style={styles.topupTrns}
                   style={[
                     styles.topupTrns,
-                    { backgroundColor: isTopupActive ? "#18AA5E" : "white" },
+                    { backgroundColor: isTopupActive ? "#3bb452" : "white" },
                   ]}
                   onPress={() => {
                     setIsTopupActive(true);
@@ -229,7 +136,7 @@ const HistoryScreen = ({ navigation }) => {
                   }}
                 >
                   <Text
-                    style={{ color: isTopupActive ? "#FFFFFF" : "#18AA5E" }}
+                    style={{ color: isTopupActive ? "#FFFFFF" : "#3bb452" }}
                   >
                     {t("HisrotyScreen.topUp")}
                   </Text>
@@ -237,7 +144,7 @@ const HistoryScreen = ({ navigation }) => {
                 <TouchableOpacity
                   style={[
                     styles.chargingTrns,
-                    { backgroundColor: isChargedActive ? "#18AA5E" : "white" },
+                    { backgroundColor: isChargedActive ? "#3bb452" : "white" },
                   ]}
                   onPress={() => {
                     setIsChargedActive(true);
@@ -247,7 +154,7 @@ const HistoryScreen = ({ navigation }) => {
                   }}
                 >
                   <Text
-                    style={{ color: isChargedActive ? "#FFFFFF" : "#18AA5E" }}
+                    style={{ color: isChargedActive ? "#FFFFFF" : "#3bb452" }}
                   >
                     {t("HisrotyScreen.writingOff")}
                   </Text>
@@ -315,15 +222,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   tinyLogo: {
-    marginTop: 25,
-    width: 230,
-    height: 29,
+    marginTop: "3%",
+    width: 220,
+    height: 59,
     resizeMode: "contain",
   },
   topContainer: {
     width: "100%",
     height: "15%",
     alignItems: "center",
+    marginTop: "5%",
   },
   buttonContainer: {
     top: 40,

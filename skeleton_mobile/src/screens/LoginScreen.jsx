@@ -36,86 +36,7 @@ const LoginScreen = ({ navigation }) => {
   const showPin = () => setPinHidden(!pinHidden);
 
   const loginHandler = () => {
-    if (phoneError === false && pinError === false) {
-      return axios
-        .post(`${Config.baseUrl}/client/auth/login`, {
-          password: pinCode,
-          phone: phone,
-          merchant: "Mango",
-        })
-        .then(async (res) =>
-          AsyncStorage.setItem("token", res.data.token)
-            .then(() =>
-              axios
-                .post(
-                  `${Config.baseUrl}/client/graphql`,
-                  {
-                    query: "{self {entity, first_name}}",
-                    variables: {},
-                  },
-                  {
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${res.data.token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  const {
-                    data: {
-                      data: { self },
-                    },
-                  } = res;
-
-                  if (self?.entity === 2) {
-                    return navigation.navigate("LegalEntity", {
-                      name: self?.first_name,
-                    });
-                  }
-
-                  setPhone("");
-                  setPinCode("");
-
-                  return navigation.navigate("CardScreen", {
-                    name: self?.first_name,
-                  });
-                })
-                .catch((error) => {
-                  if (error.message.includes("status code 423")) {
-                    return Alert.alert(
-                      t("LoginScreen.Error"),
-                      t("LoginScreen.Blocked")
-                    );
-                  }
-                  if (error.message.includes("status code 403")) {
-                    return Alert.alert(
-                      t("LoginScreen.Error"),
-                      t("LoginScreen.ErrorTXT")
-                    );
-                  }
-                  return Alert.alert(t("LoginScreen.Error"), t("ErrorTXTDef"));
-                })
-            )
-            .catch(() => {
-              return Alert.alert(t("LoginScreen.Error"), t("ErrorTXTDef"));
-            })
-        )
-        .catch((error) => {
-          if (error.message.includes("status code 423")) {
-            return Alert.alert(
-              t("LoginScreen.Error"),
-              t("LoginScreen.Blocked")
-            );
-          }
-          if (error.message.includes("status code 403")) {
-            return Alert.alert(
-              t("LoginScreen.Error"),
-              t("LoginScreen.ErrorTXT")
-            );
-          }
-          return Alert.alert(t("LoginScreen.Error"), t("ErrorTXTDef"));
-        });
-    }
+    navigation.navigate("CardScreen");
   };
 
   return (
@@ -123,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.containerImg}>
           <Image
-            source={require("../assets/images/horizontal_transp.png")}
+            source={require("../assets/images/VostokGaz.png")}
             style={styles.logoLoginScreen}
           />
         </View>
@@ -275,7 +196,8 @@ const styles = StyleSheet.create({
   },
   logoLoginScreen: {
     width: 220,
-    height: 29,
+    height: 59,
+    resizeMode: "contain",
   },
   logo: {
     fontWeight: "bold",
@@ -304,7 +226,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   inputContainer: {
-    marginTop: "25%",
+    marginTop: "20%",
     width: "90%",
   },
   iconsInput: {

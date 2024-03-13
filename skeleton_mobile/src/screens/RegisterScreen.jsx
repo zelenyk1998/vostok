@@ -73,7 +73,7 @@ const RegisterScreen = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.containerImg}>
           <Image
-            source={require("../assets/images/horizontal_transp.png")}
+            source={require("../assets/images/VostokGaz.png")}
             style={styles.logoLoginScreen}
           />
         </View>
@@ -226,15 +226,16 @@ const styles = StyleSheet.create({
   },
   containerImg: {
     resizeMode: "contain",
-    top: 64,
+    top: 30,
     right: 10,
     left: 0,
     paddingHorizontal: 20,
     padding: 10,
   },
   logoLoginScreen: {
-    width: 300,
-    height: 40,
+    width: 220,
+    height: 59,
+    resizeMode: "contain",
   },
   textRegistration: {
     fontWeight: "700",

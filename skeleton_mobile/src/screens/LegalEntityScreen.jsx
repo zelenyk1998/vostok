@@ -32,99 +32,15 @@ const LegalEntityScreen = () => {
     setShowQRCode(true);
   };
 
-  const setCardInfo = async () => {
-    await AsyncStorage.getItem("cardInfo").then((cardInfo) =>
-      setCard(JSON.parse(cardInfo))
-    );
-  };
-
-  const getJurCardInfo = () =>
-    AsyncStorage.getItem("token")
-      .then((token) => {
-        if (!token) {
-          Alert.alert(t("Session.session"), t("Session.finished"));
-          return navigation.navigate("Login");
-        }
-        if (token) {
-          AsyncStorage.getItem("userInfo").then((userInfo) => {
-            const { codeEdroup, phoneNumber } = JSON.parse(userInfo);
-
-            return axios
-              .post(
-                `${Config.baseUrl}/client/graphql`,
-                {
-                  query: `
-                  query getJurCard($code_edroup: String!, $phone: String!) {
-                    getJurQRCard(code_edroup: $code_edroup, phone: $phone) {
-                      id, card_name, serial_external, pin1, balance
-                    }
-                  }
-                `,
-                  variables: {
-                    code_edroup: codeEdroup,
-                    phone: phoneNumber,
-                  },
-                },
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                  },
-                }
-              )
-              .then(async (res) => {
-                if (res.data?.errors) {
-                  return Alert.alert(
-                    t("InputErrors.error"),
-                    "Неправильно введено дані. Перевірте свою інформацію та повторіть спробу пізніше."
-                  );
-                }
-                const {
-                  data: {
-                    data: { getJurQRCard },
-                  },
-                } = res;
-
-                return setCard(getJurQRCard);
-              })
-              .catch(() => {
-                return Alert.alert(t("InputErrors.error"), t("ErrorTXTDef"));
-              });
-          });
-        }
-      })
-      .catch(async () => {
-        await AsyncStorage.multiRemove(["cardInfo", "userInfo"]);
-        return Alert.alert(t("Session.session"), t("Session.finished"));
-      });
-
-  useEffect(() => {
-    setCardInfo();
-  }, []);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getJurCardInfo();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
       >
         <View style={styles.container}>
           <View style={styles.topContainer}>
             <View style={styles.containerImg}>
-              <Image
-                source={require("../assets/images/horizontal_transp.png")}
-                style={styles.logoLoginScreen}
-              />
             </View>
             {showQRCode ? (
               <TouchableOpacity style={styles.qrCode} onPress={toggleQRCode}>
@@ -133,26 +49,24 @@ const LegalEntityScreen = () => {
                   size={195}
                   backgroundColor="white"
                 />
-                <Text style={styles.qrText}>pin-code: {card.pin1}</Text>
+                <Text style={styles.qrText}>pin-code: 234234</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity onPress={openFuel}>
-                <View style={styles.card}>
+               <View style={styles.card}>
+               <LinearGradient
+                      locations={[0,0.6,0.5]}
+                      colors={["white", "#3bb452"]}
+                      style={styles.linearGradient}
+                    >
                   <View style={styles.cardTop}>
                     <Image
-                      source={require("../assets/images/circle.png")}
+                      source={require("../assets/images/VostokGaz.png")}
                       style={styles.imageCard}
                     />
                   </View>
                   <View style={styles.cardButtom}>
-                    <LinearGradient
-                      colors={["#adf3f1", "#3bc0ff"]}
-                      style={styles.linearGradient}
-                    >
-                      <Image
-                        source={require("../assets/images/text_card.png")}
-                        style={styles.textCard}
-                      />
+                    
                       <View
                         style={{
                           alignItems: "center",
@@ -162,7 +76,7 @@ const LegalEntityScreen = () => {
                         <Text style={styles.cardText}>
                           {t("CardScreen.fuelCard")}
                         </Text>
-                        <Text style={styles.cardNumber}>{card.card_name}</Text>
+                        <Text style={styles.cardNumber}>32525245</Text>
                       </View>
                       <View style={styles.balanceText}>
                         <Text
@@ -187,11 +101,11 @@ const LegalEntityScreen = () => {
                             color: "black",
                           }}
                         >
-                          {card.balance} {t("CardScreen.currencyBalance")}
+                          2143123 {t("CardScreen.currencyBalance")}
                         </Text>
                       </View>
-                    </LinearGradient>
                   </View>
+                  </LinearGradient>
                 </View>
               </TouchableOpacity>
             )}
@@ -241,30 +155,27 @@ const styles = StyleSheet.create({
   },
   logoLoginScreen: {
     width: 220,
-    height: 29,
+    height: 59,
+    resizeMode: "contain",
   },
   card: {
-    marginTop: "5%",
     width: "90%",
-    height: "57%",
+    height: 220,
     overflow: "hidden",
     position: "relative",
     left: "5.5%",
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "#3bb452",
   },
   cardTop: {
     width: "100%",
     flex: 1,
+    alignItems: "center",
   },
   cardButtom: {
     width: "100%",
     flex: 1,
-  },
-  cardNumber: {
-    color: "black",
-    fontWeight: "500",
   },
   linearGradient: {
     alignItems: "center",
@@ -272,10 +183,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   imageCard: {
-    flex: 1,
-    width: 250,
-    height: 71.08,
-    left: "15%",
+    marginTop: "5%",
+    width: 200,
+    height: 51.08,
     resizeMode: "contain",
   },
   textCard: {
@@ -285,17 +195,18 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   cardText: {
+    marginTop: "2%",
     fontWeight: "500",
     fontSize: 16,
     color: "black",
   },
-  cardNomer: {
+  cardNumber: {
     fontWeight: "400",
     fontSize: 14,
     color: "black",
   },
   balanceText: {
-    marginTop: "3%",
+    marginTop: "7%",
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",

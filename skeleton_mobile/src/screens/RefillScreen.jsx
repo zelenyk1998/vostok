@@ -25,67 +25,7 @@ const RefillScreen = ({ navigation }) => {
   const [amountError, setAmountError] = useState(false);
 
   const topupHandler = () => {
-    if (!amount.trim()) {
-      setAmountError(true);
-      return Alert.alert(
-        t("InputErrors.error"),
-        t("InputErrors.cannot_be_empty")
-      );
-    }
-    if (amount < 1 || amount > 149999) {
-      return Alert.alert(t("InputErrors.error"), t("InputErrors.amount_range"));
-    }
-
-    if (amountError === false) {
-      return AsyncStorage.getItem("token")
-        .then((token) => {
-          if (!token) {
-            return Alert.alert(t("Session.session"), t("Session.finished"));
-          }
-          return axios
-            .post(
-              `${Config.baseUrl}/client/graphql`,
-              {
-                query: `
-                  mutation createClientTrunc($amount: Int!, $description: String!, $short_description: String!) {
-                    createTrunc(amount: $amount, description: $description, short_description: $short_description) {
-                      response
-                    }
-                  }
-                `,
-                variables: {
-                  amount: parseFloat(amount),
-                  description: description,
-                  short_description: description,
-                },
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            )
-            .then((res) => {
-              const {
-                data: {
-                  data: {
-                    createTrunc: { response },
-                  },
-                },
-              } = res;
-
-              return Linking.openURL(response.url);
-            })
-            .catch(() => {
-              return Alert.alert(t("InputErrors.error"), t("ErrorTXTDef"));
-            });
-        })
-        .catch(() => {
-          Alert.alert(t("Session.session"), t("Session.finished"));
-          return navigation.navigate("Login");
-        });
-    }
+    return Alert.alert(("Ошибочка"), ("Закинь гроші пес"));
   };
 
   return (
@@ -94,7 +34,7 @@ const RefillScreen = ({ navigation }) => {
         <View style={styles.topContainer}>
           <View style={styles.containerImg}>
             <Image
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
               style={styles.logoLoginScreen}
             />
           </View>
@@ -184,8 +124,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   logoLoginScreen: {
-    width: 300,
-    height: 40,
+    width: 500,
+    height: 70,
+    resizeMode: "contain",
   },
   textRegistration: {
     fontWeight: "700",

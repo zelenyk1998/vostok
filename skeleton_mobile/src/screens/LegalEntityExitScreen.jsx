@@ -33,7 +33,7 @@ const LegalEntityExitScreen = ({ navigation, setAuthToken }) => {
         <View style={styles.containerBrands}>
           <View style={styles.containerImg}>
             <Image
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
               style={styles.logoLoginScreen}
             />
           </View>
@@ -92,8 +92,10 @@ const styles = StyleSheet.create({
     height: "5%",
   },
   logoLoginScreen: {
+    marginTop: "5%",
     width: 220,
-    height: 29,
+    height: 59,
+    resizeMode: "contain",
   },
   exitTextContainer: {
     height: "10%",
@@ -127,12 +129,12 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
     justifyContent: "center",
     padding: "2%",
-    backgroundColor: "#18aa5e",
+    backgroundColor: "#3bb452",
     borderRadius: 6,
     borderWidth: 1,
     textAlign: "center",
     alignItems: "center",
-    borderColor: "#18aa5e",
+    borderColor: "#3bb452",
   },
   exitsText: {
     textAlign: "center",
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   notExitText: {
-    color: "#18AA5E",
+    color: "#3bb452",
     fontSize: 14,
     fontWeight: "600",
     textAlign: "center",

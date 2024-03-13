@@ -27,17 +27,17 @@ const ConfirmationScreen = ({ navigation, route }) => {
         <View style={styles.containerBrands}>
           <View style={styles.containerImg}>
             <Image
-              source={require("../assets/images/horizontal_transp.png")}
+              source={require("../assets/images/VostokGaz.png")}
               style={styles.logoLoginScreen}
             />
           </View>
           <View style={styles.check}>
-            <Icon name="check-circle" color="#18aa5e" size={60} />
+            <Icon name="check-circle" color="#3bb452" size={60} />
           </View>
           <View style={styles.textConfirm}>
             <Text style={styles.textWelcome}>
               {t("ConfirmScreen.greating")}
-              {/*{name}*/}
+              Ваше ім'я
             </Text>
             <Text style={styles.textAboutAccount}>
               {t("ConfirmScreen.accs")}
@@ -91,8 +91,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logoLoginScreen: {
-    width: 300,
-    height: 40,
+    marginTop: "5%",
+    width: 220,
+    height: 59,
+    resizeMode: "contain",
   },
   check: {
     height: "10%",
@@ -129,14 +131,14 @@ const styles = StyleSheet.create({
     width: "42%",
     alignItems: "center",
     padding: "3%",
-    backgroundColor: "#18aa5e",
+    backgroundColor: "#3bb452",
     borderRadius: 6,
     shadowColor: "rgba(24, 170, 94, 0.2)",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
 
     borderWidth: 1,
-    borderColor: "#18aa5e",
+    borderColor: "#3bb452",
   },
   nextButtontext: {
     fontSize: 14,
